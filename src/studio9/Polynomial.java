@@ -2,8 +2,10 @@ package studio9;
 
 import java.util.LinkedList;
 
+
+
 public class Polynomial {
-	
+
 	private LinkedList<Double> list;
 
 	/**
@@ -11,9 +13,10 @@ public class Polynomial {
 	 */
 	public Polynomial() {
 		//FIXME
+		list = new LinkedList<>();
 	}
 
-	
+
 	/**
 	 * 
 	 * @param coeff
@@ -21,31 +24,66 @@ public class Polynomial {
 	 */
 	public void addTerm(double coeff) {
 		//FIXME
+		list.add(coeff);	
 	}
-	
+
 	/*
 	 * Returns a String of the polynomial with the proper form:
 	 * 
 	 * Cx^N + Cx^N-1 + ... + Cx + C
 	 */
 	public String toString() {
-		return ""; //FIXME
+		int degree = 0;
+		String output = "";
+
+		for (int i = list.size()-1; i >= 0; i--) {
+			if (list.get(i) == 0){
+				degree++;
+			}else if (degree == 0) {
+				output = " + " + list.get(i) + output;
+				degree++;
+			}else if (degree == 1){
+				output = " + " + list.get(i) + "x" + output;
+				degree++;
+			}else {
+				output = " + " + list.get(i) + "x^" + degree + output;
+				degree++;
+			}
+		}			
+		return output.substring(3);
 	}
-	
+
 	/**
 	 * 
 	 * @param x
 	 * @return value of polynomial at that x
 	 */
 	public double evaluate(double x) {
-		return 0;//FIXME
+		double eval = 0.0;
+
+		int degree = list.size() - 1;
+
+		for (int i = 0; i < list.size(); i++) {
+			eval = Math.pow(x, degree) * list.get(i) + eval;
+			degree--;
+		}
+
+		return eval;//FIXME
 	}
 
-	
+
 	public Polynomial derivative() {
-		return null;//FIXME
+		Polynomial deriv = new Polynomial();
+		int degree = list.size() - 1;
+		for (int i = 0; i < list.size() - 1; i++) {
+			
+			deriv.list.add(degree * list.get(i));
+			degree--;
+		}
+		
+		return deriv;//FIXME
 	}
-	
+
 
 	/**
 	 * This is the "equals" method that is called by
